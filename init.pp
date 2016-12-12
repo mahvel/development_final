@@ -1,7 +1,13 @@
-class development {
-	
-	Package{ensure => "installed",}
-	$devpackages = ["apache2", "mysql-server", "mysql-client", "netbeans", "mysql-workbench", "git", "gedit", "ssh"]
+class development ($userName){
+	$devpackages = ["mysql-server", "mysql-client", "netbeans", "mysql-workbench", "git", "gedit", "ssh"]
+
+	package{"apache2":
+		ensure=> "installed",
+	}
+
+	package{$devpackages: 
+		ensure => "installed",
+	}
 
 	file{"/home/$userName/workspace":
 		ensure => "directory",
@@ -25,7 +31,7 @@ class development {
                 notify => Service["apache2"],
         }
 
-	file{"/var/www/html":
+	file{"/var/www/html/index.html":
 		ensure => "present",
 		content => template("development/index.html"),
 		require => Package["apache2"],
@@ -40,10 +46,12 @@ class development {
 	service{"apache2":
 		ensure => "running",
 		enable => "true",
+		provider => "systemd",
 	}
 
 	service{"ssh":
 		ensure => "running",
 		enable => "true",
+		provider => "systemd",
 	}
 }
