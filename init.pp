@@ -1,7 +1,7 @@
 class development {
 	
 	Package{ensure => "installed",}
-	$devpackages = ["mysql-server", "mysql-client", "netbeans", "mysql-workbench", "git", "gedit", "ssh"]
+	$devpackages = ["apache2", "mysql-server", "mysql-client", "netbeans", "mysql-workbench", "git", "gedit", "ssh"]
 
 	file{"/home/$userName/workspace":
 		ensure => "directory",
